@@ -2,6 +2,7 @@
 let inputElement = document.getElementById("fileItem"); // File input
 let fileInput; // If this has a value then use it
 let codeButtons = document.querySelectorAll('.code-button');
+let extractedGenomes;
 
 // Method which is called on the class instance to listen for users input 
 inputElement.addEventListener("change", (e) => {
@@ -15,8 +16,7 @@ inputElement.addEventListener("change", (e) => {
         // Reload the page
         fileInput = reader.result;
 
-        let extractedGenomes = extractGenomeSequenceObjects(fileInput);
-        console.log(extractedGenomes[0]);
+        extractedGenomes = extractGenomeSequenceObjects(fileInput);
    
         // bioinformatics.listen();
     }
@@ -54,9 +54,17 @@ let extractGenomeSequenceObjects = (fileInput) =>{
         } else if (!line) {
             // If a blank line, then the genome object has been created
             genomeObject.sequence = genomeString;
+            let seq = new Sequence(genomeString);
+            console.log("Normal: "+seq.sequence);
+            console.log("Complement: "+seq.complement());
+            console.log("Reverse Complement: "+seq.reverseComplement());
+            console.log("Transcribe: "+seq.transcribe());
+            // console.log("GC: "+seq.gc());
             newGenome == false;
             extractedFastaObjects.push(genomeObject);
         }
     });
     return extractedFastaObjects;
 }
+
+
